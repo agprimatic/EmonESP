@@ -230,6 +230,8 @@ void wifi_onStationModeDisconnected(const WiFiEventStationModeDisconnected &even
 
 void
 wifi_setup() {
+  pinMode(WIFI_BUTTON, INPUT_PULLUP);
+
 #ifdef WIFI_LED
   pinMode(WIFI_LED, OUTPUT);
   digitalWrite(WIFI_LED, wifiLedState);
