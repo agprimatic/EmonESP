@@ -235,7 +235,15 @@ wifi_setup() {
   digitalWrite(WIFI_LED, wifiLedState);
 #endif
 
-  randomSeed(analogRead(0));
+#ifdef ESP32
+  // Not strictly required--default is to useRandomHW in WMath.cpp *as long as randomSeed() is not called!*
+  useRealRandomGenerator(true);
+#else // ESP8266
+  // Not needed--default is to use RANDOM_REG32 in WMath.cpp *as long as randomSeed() is not called!*
+  // Unfortunately, no way to reset s_randomSeedCalled to false
+#endif
+  // This conflicts with using GPIO0 as a WIFI_BUTTON
+  //randomSeed(analogRead(0));
 
   // If we have an SSID configured at this point we have likely
   // been running another firmware, clear the results
